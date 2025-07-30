@@ -26,7 +26,6 @@ export const getSortIndicator = (currentKey, sortConfig) => {
 	if (sortConfig.key !== currentKey) return "↕";
 
 	switch (sortConfig.direction) {
-
 		case "ascending":
 			return "↑";
 
@@ -36,4 +35,24 @@ export const getSortIndicator = (currentKey, sortConfig) => {
 		default:
 			return "↕";
 	}
+};
+
+export const filterData = (data, filters) => {
+	if (!filters || Object.keys(filters).length === 0) return data;
+
+	return data.filter((item) => {
+		return Object.entries(filters).every(([key, value]) => {
+			if (!value) return true;
+
+			const itemValue = key.includes(".")
+				? key.split(".").reduce((obj, k) => obj?.[k], item)
+				: item[key];
+
+			if (itemValue === undefined || itemValue === null) return false;
+
+			return String(itemValue)
+				.toLowerCase()
+				.includes(String(value).toLowerCase());
+		});
+	});
 };

@@ -7,6 +7,8 @@ export const Table = ({
 	sortConfig,
 	requestSort,
 	sortableColumns,
+	filters,
+	onFilterChange,
 }) => {
 	return (
 		<table>
@@ -15,6 +17,8 @@ export const Table = ({
 				sortConfig={sortConfig}
 				requestSort={requestSort}
 				sortableColumns={sortableColumns}
+				filters={filters}
+				onFilterChange={onFilterChange}
 			/>
 			<tbody>
 				{data.map((user) => (

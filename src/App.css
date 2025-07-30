@@ -114,6 +114,17 @@ tr:hover {
 	color: var(--accent-color);
 }
 
+.filter-input {
+	width: 100%;
+	padding: 5px;
+	margin-top: 8px;
+	box-sizing: border-box;
+	border: 1px solid var(--accent-color);
+	border-radius: 4px;
+	background-color: var(--bg-tertiary);
+	color: var(--text-primary);
+}
+
 @media (max-width: 768px) {
 	.app {
 		padding: 10px;

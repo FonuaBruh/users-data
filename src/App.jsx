@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 import { fetchUsers } from "./api/usersApi";
 import { useSort } from "./hooks/useSort";
-import { sortData } from "./utils/sortUtils";
+import { sortData, filterData } from "./utils/sortUtils";
 import { Table } from "./components/Table";
 import "./App.css";
 
 const columns = [
-	{ key: "lastName", label: "Фамилия" },
-	{ key: "firstName", label: "Имя" },
-	{ key: "maidenName", label: "Отчество" },
-	{ key: "age", label: "Возраст" },
-	{ key: "gender", label: "Пол" },
-	{ key: "phone", label: "Телефон" },
-	{ key: "email", label: "Email" },
-	{ key: "address.country", label: "Страна" },
-	{ key: "address.city", label: "Город" },
+	{ key: "lastName", label: "Фамилия", filterable: true },
+	{ key: "firstName", label: "Имя", filterable: true },
+	{ key: "maidenName", label: "Отчество", filterable: true },
+	{ key: "age", label: "Возраст", filterable: true },
+	{ key: "gender", label: "Пол", filterable: true },
+	{ key: "phone", label: "Телефон", filterable: true },
+	{ key: "email", label: "Email", filterable: true },
+	{ key: "address.country", label: "Страна", filterable: true },
+	{ key: "address.city", label: "Город", filterable: true },
 ];
 
 const sortableColumns = [
@@ -31,6 +31,7 @@ function App() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const { sortConfig, requestSort } = useSort();
+	const [filters, setFilters] = useState({});
 
 	useEffect(() => {
 		const loadUsers = async () => {
@@ -47,7 +48,15 @@ function App() {
 		loadUsers();
 	}, []);
 
-	const sortedUsers = sortData(users, sortConfig);
+	const handleFilterChange = (key, value) => {
+		setFilters((prev) => ({
+			...prev,
+			[key]: value,
+		}));
+	};
+
+	const filteredUsers = filterData(users, filters);
+	const sortedUsers = sortData(filteredUsers, sortConfig);
 
 	if (loading) return <div className="loading">Загрузка данных...</div>;
 	if (error)
@@ -63,6 +72,8 @@ function App() {
 					sortConfig={sortConfig}
 					requestSort={requestSort}
 					sortableColumns={sortableColumns}
+					filters={filters}
+					onFilterChange={handleFilterChange}
 				/>
 			</div>
 		</div>
