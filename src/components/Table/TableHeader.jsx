@@ -47,6 +47,7 @@ export const TableHeader = ({
 							</div>
 							{isFilterable && (
 								<input
+									id={Math.random().toString()}
 									type="text"
 									value={filters[column.key] || ""}
 									onChange={(e) =>
