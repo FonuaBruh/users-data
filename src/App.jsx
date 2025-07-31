@@ -7,15 +7,15 @@ import { UserDetailsModal } from "./components/UserDetailsModal";
 import "./App.css";
 
 const columns = [
-	{ key: "lastName", label: "Фамилия", filterable: true },
-	{ key: "firstName", label: "Имя", filterable: true },
-	{ key: "maidenName", label: "Отчество", filterable: true },
-	{ key: "age", label: "Возраст", filterable: true },
-	{ key: "gender", label: "Пол", filterable: true },
-	{ key: "phone", label: "Телефон", filterable: true },
-	{ key: "email", label: "Email", filterable: true },
-	{ key: "address.country", label: "Страна", filterable: true },
-	{ key: "address.city", label: "Город", filterable: true },
+	{ key: "lastName", label: "Фамилия", filterable: true, initialWidth: 100 },
+	{ key: "firstName", label: "Имя", filterable: true, initialWidth: 100 },
+	{ key: "maidenName", label: "Отчество", filterable: true, initialWidth: 90 },
+	{ key: "gender", label: "Пол", filterable: true, initialWidth: 60 },
+	{ key: "phone", label: "Телефон", filterable: true, initialWidth: 130 },
+	{ key: "email", label: "Email", filterable: true, initialWidth: 200 },
+	{ key: "address.country", label: "Страна", filterable: true, initialWidth: 120 },
+	{ key: "address.city", label: "Город", filterable: true, initialWidth: 120 },
+	{ key: "age", label: "Возраст", filterable: true, initialWidth: 80 },
 ];
 
 const sortableColumns = [
