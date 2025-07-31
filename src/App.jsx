@@ -3,6 +3,7 @@ import { fetchUsers } from "./api/usersApi";
 import { useSort } from "./hooks/useSort";
 import { sortData, filterData } from "./utils/sortUtils";
 import { Table } from "./components/Table";
+import { UserDetailsModal } from "./components/UserDetailsModal";
 import "./App.css";
 
 const columns = [
@@ -32,6 +33,9 @@ function App() {
 	const [error, setError] = useState(null);
 	const { sortConfig, requestSort } = useSort();
 	const [filters, setFilters] = useState({});
+	const [currentPage, setCurrentPage] = useState(1);
+	const [usersPerPage] = useState(10);
+	const [selectedUser, setSelectedUser] = useState(null);
 
 	useEffect(() => {
 		const loadUsers = async () => {
@@ -53,10 +57,18 @@ function App() {
 			...prev,
 			[key]: value,
 		}));
+		setCurrentPage(1);
 	};
 
 	const filteredUsers = filterData(users, filters);
 	const sortedUsers = sortData(filteredUsers, sortConfig);
+
+	const indexOfLastUser = currentPage * usersPerPage;
+	const indexOfFirstUser = indexOfLastUser - usersPerPage;
+	const currentUsers = sortedUsers.slice(indexOfFirstUser, indexOfLastUser);
+	const totalPages = Math.ceil(sortedUsers.length / usersPerPage);
+
+	const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
 	if (loading) return <div className="loading">Загрузка данных...</div>;
 	if (error)
@@ -64,18 +76,38 @@ function App() {
 
 	return (
 		<div className="app">
-			<h1>Таблица пользователей</h1>
+			<h1>Таблица пользователей</h1>
 			<div className="table-container">
 				<Table
-					data={sortedUsers}
+					data={currentUsers}
 					columns={columns}
 					sortConfig={sortConfig}
 					requestSort={requestSort}
 					sortableColumns={sortableColumns}
 					filters={filters}
 					onFilterChange={handleFilterChange}
+					onRowClick={setSelectedUser}
 				/>
 			</div>
+			<div className="pagination">
+				{Array.from({ length: totalPages }, (_, i) => i + 1).map(
+					(number) => (
+						<button
+							key={number}
+							onClick={() => paginate(number)}
+							className={currentPage === number ? "active" : ""}
+						>
+							{number}
+						</button>
+					)
+				)}
+			</div>
+			{selectedUser && (
+				<UserDetailsModal
+					user={selectedUser}
+					onClose={() => setSelectedUser(null)}
+				/>
+			)}
 		</div>
 	);
 }

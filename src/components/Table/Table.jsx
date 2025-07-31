@@ -9,6 +9,7 @@ export const Table = ({
 	sortableColumns,
 	filters,
 	onFilterChange,
+	onRowClick,
 }) => {
 	return (
 		<table>
@@ -22,7 +23,12 @@ export const Table = ({
 			/>
 			<tbody>
 				{data.map((user) => (
-					<TableRow key={user.id} user={user} columns={columns} />
+					<TableRow
+						key={user.id}
+						user={user}
+						columns={columns}
+						onRowClick={onRowClick}
+					/>
 				))}
 			</tbody>
 		</table>

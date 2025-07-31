@@ -1,8 +1,8 @@
 import React from "react";
 
-export const TableRow = ({ user, columns }) => {
+export const TableRow = ({ user, columns, onRowClick }) => {
 	return (
-		<tr>
+		<tr onClick={() => onRowClick(user)} style={{ cursor: "pointer" }}>
 			{columns.map((column) => (
 				<td key={`${user.id}-${column.key}`}>
 					{column.key.includes(".")
